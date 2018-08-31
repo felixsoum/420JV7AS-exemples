@@ -46,6 +46,7 @@
     <Compile Include="Monster.cs" />
     <Compile Include="MonsterData.cs" />
     <Compile Include="Orc.cs" />
+    <Compile Include="PereFwetar.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

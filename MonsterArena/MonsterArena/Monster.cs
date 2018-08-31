@@ -19,7 +19,7 @@ namespace MonsterArena
         string name;
         int hp;
         int level = 1;
-        Random random = new Random();
+        static Random random = new Random();
         bool isSpawned;
 
         public Monster(string name)
