@@ -37,7 +37,7 @@ namespace Nana
        
             Console.WriteLine(GetData().name + " has stopped the time!");
             Console.WriteLine("");
-         turn++;
+			turn++;
             var who = 0;
 
 
