@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nana;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,18 +11,18 @@ namespace MonsterArena
         {
             List<Monster> monsters = new List<Monster>()
             {
-                new SpanishInquisition("Nobody expects"),
-                new AtlasWorldLifter("Victor"),
-                new Daniel("David"),
-                new GiantSlug("Babygirl"),
-                new HeroForFun("Saitama"),
+				new AtlasWorldLifter("Victor"),
+				new Daniel("David"),
+				new Spirit("Mittens"),
+				new Palico("Alonso"),
+				new PereFwetar("Pere Fwetar"),
+				new TheLegend27("Colin"),
+				new XxdragonBoss69xx("Adrien"),
                 new Leprauchaun("Echo"),
-                new Nana.Spirit("Brad"),
-                new Palico("Mittens"),
-                new PereFwetar("Samuel"),
-                new TheLegend27("Colin"),
-                new XxdragonBoss69xx("Adrien"),
-                new GoblinRoberto("Roberto")
+                new HeroForFun("Saitama"),
+                new GiantSlug("Babygirl"),
+                new Furry("Trap"),
+				new GoblinRoberto("Roberto")
             };
 
             foreach (var monster in monsters)
@@ -60,6 +61,7 @@ namespace MonsterArena
             {
                 Console.WriteLine("All combatants have perished...");
             }
+			Console.ReadLine();
         }
 
         static bool IsBattleOver(List<Monster> monsters)

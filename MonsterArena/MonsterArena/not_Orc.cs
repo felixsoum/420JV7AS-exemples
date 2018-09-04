@@ -1,8 +1,8 @@
 ﻿namespace MonsterArena
 {
-    class Orc : Monster
+    class Human : Monster
     {
-        public Orc(string name) : base(name)
+        public Human(string name) : base(name)
         {
             AddBonusStrength(50);
             AddBonusVitality(50);

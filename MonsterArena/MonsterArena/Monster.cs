@@ -48,8 +48,9 @@ namespace MonsterArena
         }
 
         public void Attack(Monster target)
-        {
-            if (target.IsDead())
+		{
+			Console.WriteLine();
+			if (target.IsDead())
             {
                 Console.WriteLine($"{this} attacks {target}, but it's already dead.");
                 return;

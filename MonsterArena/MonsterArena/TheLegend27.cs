@@ -23,9 +23,12 @@ namespace MonsterArena
 					weight -= 10000;
 				if (monsters[i].hp <= 0)//Dead people aren't tasty either
 					weight -= 10000;
+				if (GetDamage() >= monsters[i].hp)//It's more tasty if I can kill it right now
+					weight += 100;
 
-				weight -= monsters[i].hp;//The more HP, the less tasty
+				weight = monsters[i].hp;//The more HP, the more tasty
 				weight += (monsters[i].level - 1) * 20;//More LVL -> more tasty
+
 				monsterWeight.Add(weight);
 			}
 

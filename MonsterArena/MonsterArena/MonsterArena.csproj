@@ -42,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpanishInquisition.cs" />
     <Compile Include="AtlasWorldLifter.cs" />
     <Compile Include="Daniel.cs" />
     <Compile Include="GiantSlug.cs" />
@@ -53,6 +52,7 @@
     <Compile Include="Lich.cs" />
     <Compile Include="Monster.cs" />
     <Compile Include="MonsterData.cs" />
+    <Compile Include="not_Orc.cs" />
     <Compile Include="Orc.cs" />
     <Compile Include="Palico.cs" />
     <Compile Include="PereFwetar.cs" />
