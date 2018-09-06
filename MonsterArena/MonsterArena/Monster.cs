@@ -5,15 +5,6 @@ namespace MonsterArena
 {
     abstract class Monster : IComparable<Monster>
     {
-        int baseStrength = 25;
-        int baseVitality = 25;
-        int baseDexterity = 25;
-        int baseLuck = 25;
-
-        int bonusStrength;
-        int bonusVitality;
-        int bonusDexterity;
-        int bonusLuck;
         protected const int BonusMaxCount = 100;
 
         string name;
@@ -21,6 +12,15 @@ namespace MonsterArena
         int level = 1;
         static Random random = new Random();
         bool isSpawned;
+
+        public int BaseStrength { get; } = 25;
+        public int BaseVitality { get; } = 25;
+        public int BaseDexterity { get; } = 25;
+        public int BaseLuck { get; } = 25;
+        public int BonusStrength { get; set; }
+        public int BonusVitality { get; set; }
+        public int BonusDexterity { get; set; }
+        public int BonusLuck { get; set; }
 
         public Monster(string name)
         {
@@ -54,8 +54,8 @@ namespace MonsterArena
                 Console.WriteLine($"{this} attacks {target}, but it's already dead.");
                 return;
             }
-            int damage = baseStrength + bonusStrength;
-            bool isCrit = random.Next(0, 100) < baseLuck + bonusLuck;
+            int damage = BaseStrength + BonusStrength;
+            bool isCrit = random.Next(0, 100) < BaseLuck + BonusLuck;
             if (isCrit)
             {
                 damage *= 2;
@@ -71,10 +71,10 @@ namespace MonsterArena
                     Console.WriteLine($"{this} dies by suicide...");
                     return;
                 }
-                bonusDexterity += target.bonusDexterity;
-                bonusStrength += target.bonusStrength;
-                bonusVitality += target.bonusVitality;
-                bonusLuck += target.bonusLuck;
+                BonusDexterity += target.BonusDexterity;
+                BonusStrength += target.BonusStrength;
+                BonusVitality += target.BonusVitality;
+                BonusLuck += target.BonusLuck;
                 Heal();
                 Console.WriteLine($"{target} dies! {this} is now level {++level}!");
             }
@@ -87,7 +87,7 @@ namespace MonsterArena
 
         public int GetSpeed()
         {
-            return baseDexterity + bonusDexterity;
+            return BaseDexterity + BonusDexterity;
         }
 
         public bool IsDead()
@@ -99,38 +99,38 @@ namespace MonsterArena
         {
             if (value < 0)
                 return;
-            bonusStrength = Math.Min(value, GetRemainingBonus());
+            BonusStrength = Math.Min(value, GetRemainingBonus());
         }
 
         protected void AddBonusVitality(int value)
         {
             if (value < 0)
                 return;
-            bonusVitality = Math.Min(value, GetRemainingBonus());
+            BonusVitality = Math.Min(value, GetRemainingBonus());
         }
 
         protected void AddBonusDexterity(int value)
         {
             if (value < 0)
                 return;
-            bonusDexterity = Math.Min(value, GetRemainingBonus());
+            BonusDexterity = Math.Min(value, GetRemainingBonus());
         }
 
         protected void AddBonusLuck(int value)
         {
             if (value < 0)
                 return;
-            bonusLuck = Math.Min(value, GetRemainingBonus());
+            BonusLuck = Math.Min(value, GetRemainingBonus());
         }
 
         int GetRemainingBonus()
         {
-            return Math.Max(BonusMaxCount - bonusStrength - bonusVitality - bonusDexterity - bonusLuck, 0);
+            return Math.Max(BonusMaxCount - BonusStrength - BonusVitality - BonusDexterity - BonusLuck, 0);
         }
 
         void Heal()
         {
-            hp = 2 * (baseVitality + bonusVitality);
+            hp = 2 * (BaseVitality + BonusVitality);
         }
 
         public int CompareTo(Monster other)

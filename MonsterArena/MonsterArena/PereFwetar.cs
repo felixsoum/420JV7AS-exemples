@@ -11,19 +11,31 @@ namespace MonsterArena
     {
 
         //Stats of pere fwetar
-        public const int VITALITY = 110;
+        public const int VITALITY = 52;
         public const int DAMAGE = 90;
-        public const int DEXT = 30;
-        public const int LUCK = 25;
+        public const int DEXT = 26;
+        public const int LUCK = 27;
 
         /*
          * Constructor for the NPC Pere Fwetar
          */
         public PereFwetar(string name) : base(name)
         {
-            AddBonusVitality(30);
+            AddBonusVitality(27);
             AddBonusStrength(65);
-            AddBonusDexterity(5);
+            AddBonusDexterity(1);
+            AddBonusLuck(2);
+        }
+
+        /*
+        * Constructor for the NPC Pere Fwetar
+        */
+        public PereFwetar(string name, int pVitality, int pStrength, int pDexterity, int pLuck) : base(name)
+        {
+            AddBonusVitality(pVitality);
+            AddBonusStrength(pStrength);
+            AddBonusDexterity(pDexterity);
+            AddBonusLuck(pLuck);
         }
 
         /*

@@ -42,13 +42,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AtlasWorldLifter.cs" />
+    <Compile Include="Daniel.cs" />
+    <Compile Include="GiantSlug.cs" />
+    <Compile Include="Furries.cs" />
     <Compile Include="Goblin.cs" />
+    <Compile Include="GoblinRoberto.cs" />
+    <Compile Include="HeroForFun.cs" />
+    <Compile Include="Leprauchaun.cs" />
+    <Compile Include="Lich.cs" />
     <Compile Include="Monster.cs" />
     <Compile Include="MonsterData.cs" />
+    <Compile Include="BestStatCalculator.cs" />
     <Compile Include="Orc.cs" />
+    <Compile Include="Palico.cs" />
     <Compile Include="PereFwetar.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TheLegend27.cs" />
+    <Compile Include="XxdragonBoss69xx.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
