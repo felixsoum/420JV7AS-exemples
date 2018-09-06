@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MonsterArena;
 
 namespace MonsterArena
@@ -24,7 +24,7 @@ namespace MonsterArena
 
         public override string ToString()
         {
-            if (GetData().hp < 100)
+            if (GetData().hp < (GetData().hp/2))
             {
             
                 return "lowkey Daniel";
@@ -61,10 +61,10 @@ namespace MonsterArena
                 
                 if (instance == 0)
                 {
-                    if (monsters[i].hp <= Damage && monsters[i].hp > 90)
+                    if (monsters[i].hp <= Damage)
                     {
-                        weight += (monsters[i].level) * 1000;
-
+                        weight += (monsters[i].level) * 200;
+                        weight += (monsters[i].hp) * 100;
                     }
 
                 }
@@ -101,3 +101,5 @@ namespace MonsterArena
 
     }
 }
+
+
