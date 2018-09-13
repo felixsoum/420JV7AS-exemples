@@ -7,6 +7,7 @@
         public int hp;
         public int level;
 
+
         public MonsterData(string name, string type, int hp, int level)
         {
             this.name = name;
