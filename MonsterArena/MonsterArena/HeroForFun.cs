@@ -16,6 +16,37 @@ namespace MonsterArena
             AddBonusDexterity(5);
 
         }
+        public override int GetAttackIndex(List<MonsterData> monsters)
+        {
+            int index = 0;
+            MonsterData currentMonster;
+            Random nrandom = new Random();
+            do
+            {
 
+                if (Find(monsters))
+                    index = nrandom.Next(0, monsters.Count);
+
+                currentMonster = monsters[index];
+
+
+            } while (currentMonster.hp <= 0 || currentMonster.name == "Saitama");
+
+            return index;
+        }
+        public bool Find(List<MonsterData> monsters)
+        {
+            bool found = false;
+
+            foreach (MonsterData monster in monsters)
+            {
+                if (monster.hp <= 100)
+                {
+                    found = true;
+                    break;
+                }
+            }
+            return found;
+        }
     }
 }

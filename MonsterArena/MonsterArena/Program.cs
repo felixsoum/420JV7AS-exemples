@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,7 +6,6 @@ namespace MonsterArena
 {
     class Program
     {
-
         //Amount of possibilities for each stat (0-100) 0 included = 101 poss.
         public const int POSSIBILITIES_PER_STAT = 101;
         //Amount of stats -> hp, strength, luck, dext
@@ -27,44 +26,55 @@ namespace MonsterArena
         {
             List<Monster> monsters = new List<Monster>()
             {
-                new Goblin("Alice"),
-                new Orc("Bob"),
-                new Goblin("Charlie"),
-                new Orc("David"),
+                new SpanishInquisition("Nobody expects"),
                 new AtlasWorldLifter("Victor"),
-                new Daniel("Daniel"),
-                new HeroForFun("Hero"),
-                new Palico("Palico"),
-                new TheLegend27("The legend 27"),
-                new XxdragonBoss69xx("Dragon"),
-                new PereFwetar("Samuel"),
-                new Leprauchaun("Echo"),
-                new HeroForFun("Saitama"),
+                new Daniel("David"),
                 new GiantSlug("Babygirl"),
-                new Furry("Trap")
+                new HeroForFun("Saitama"),
+                new Leprauchaun("Echo"),
+                //new Nana.Lich("Brad"),
+                new Palico("Mittens"),
+                new PereFwetar("Samuel"),
+                new TheLegend27("Colin"),
+                new InhumanRat("Theo"),
+                new Compte_Harebourg("Adrien"),
+                new GoblinRoberto("Roberto")
             };
-
-            foreach (var monster in monsters)
-            {
-                monster.Spawn();
-            }
-
-            while (!IsBattleOver(monsters))
-            {
-                monsters.Sort();
-                foreach (var activeMonster in monsters)
+			
+                foreach (var monster in monsters)
                 {
-                    if (activeMonster.IsDead())
-                        continue;
-
-                    var monsterData = CreateMonsterData(monsters);
-                    int attackIndex = activeMonster.GetAttackIndex(monsterData);
-                    if (attackIndex < 0 || attackIndex >= monsters.Count)
-                        continue;
-
-                    activeMonster.Attack(monsters[attackIndex]);
+                    monster.Spawn();
                 }
-            }
+
+
+
+                while (!IsBattleOver(monsters))
+                {
+                    monsters.Sort();
+                    foreach (var activeMonster in monsters)
+                    {
+                        if (activeMonster.IsDead())
+                            continue;
+
+                        var monsterData = CreateMonsterData(monsters);
+                        Console.WriteLine($"{activeMonster} planning his attack.");
+                        int attackIndex = activeMonster.GetAttackIndex(monsterData);
+
+                        if (attackIndex < 0 || attackIndex >= monsters.Count)
+                        {
+                            activeMonster.Attack(activeMonster);
+                        }
+                        else
+                        {
+                            activeMonster.Attack(monsters[attackIndex]);
+                        }
+
+                        if (IsBattleOver(monsters))
+                        {
+                            break;
+                        }
+                    }
+                }
 
             Monster winner = monsters.Find(m => !m.IsDead());
             if (winner != null)
@@ -72,7 +82,8 @@ namespace MonsterArena
                 Console.WriteLine($"The winner is {winner}!");
                 return winner;
             }
-            else
+
+            foreach (var entry in leaderboard)
             {
                 Console.WriteLine("All combatants have perished...");
                 return null;

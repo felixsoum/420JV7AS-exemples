@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7A50939D-EC0D-4808-95D4-35255675D82A}</ProjectGuid>
+    <ProjectGuid>{F085D8DB-FD5A-41EA-BB9F-66584C3BAE62}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MonsterArena</RootNamespace>
-    <AssemblyName>MonsterArena</AssemblyName>
+    <RootNamespace>MurderInvitation</RootNamespace>
+    <AssemblyName>MurderInvitation</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -42,27 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Compte_Harebourg.cs" />
-    <Compile Include="InhumanRat.cs" />
-    <Compile Include="ArenaMaster.cs" />
-    <Compile Include="SpanishInquisition.cs" />
-    <Compile Include="AtlasWorldLifter.cs" />
-    <Compile Include="Daniel.cs" />
-    <Compile Include="GiantSlug.cs" />
-    <Compile Include="Goblin.cs" />
-    <Compile Include="GoblinRoberto.cs" />
-    <Compile Include="HeroForFun.cs" />
-    <Compile Include="Leprauchaun.cs" />
-    <Compile Include="Lich.cs" />
-    <Compile Include="Monster.cs" />
-    <Compile Include="MonsterData.cs" />
-    <Compile Include="BestStatCalculator.cs" />
-    <Compile Include="Orc.cs" />
-    <Compile Include="Palico.cs" />
-    <Compile Include="PereFwetar.cs" />
+    <Compile Include="Actor.cs" />
+    <Compile Include="ActorControllerFactory.cs" />
+    <Compile Include="ActorData.cs" />
+    <Compile Include="FelixControllerFactory.cs" />
+    <Compile Include="GameData.cs" />
+    <Compile Include="GameMove.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TheLegend27.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

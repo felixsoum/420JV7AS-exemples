@@ -37,6 +37,11 @@ namespace MonsterArena
             }
         }
 
+        protected int GetDamage()
+        {
+            return baseStrength + bonusStrength;
+        }
+
         public virtual int GetAttackIndex(List<MonsterData> monsters)
         {
             return random.Next(0, monsters.Count);
@@ -54,8 +59,8 @@ namespace MonsterArena
                 Console.WriteLine($"{this} attacks {target}, but it's already dead.");
                 return;
             }
-            int damage = BaseStrength + BonusStrength;
-            bool isCrit = random.Next(0, 100) < BaseLuck + BonusLuck;
+            int damage = GetDamage();
+            bool isCrit = random.Next(0, 100) < (baseLuck + bonusLuck);
             if (isCrit)
             {
                 damage *= 2;
@@ -71,12 +76,13 @@ namespace MonsterArena
                     Console.WriteLine($"{this} dies by suicide...");
                     return;
                 }
-                BonusDexterity += target.BonusDexterity;
-                BonusStrength += target.BonusStrength;
-                BonusVitality += target.BonusVitality;
-                BonusLuck += target.BonusLuck;
+                bonusDexterity += target.bonusDexterity;
+                bonusStrength += target.bonusStrength;
+                bonusVitality += target.bonusVitality;
+                bonusLuck += target.bonusLuck;
+                level += target.level;
                 Heal();
-                Console.WriteLine($"{target} dies! {this} is now level {++level}!");
+                Console.WriteLine($"{target} dies! {this} is now level {level}!");
             }
         }
 
