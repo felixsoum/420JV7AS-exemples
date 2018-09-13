@@ -37,6 +37,11 @@ namespace MonsterArena
             }
         }
 
+        protected int GetDamage()
+        {
+            return baseStrength + bonusStrength;
+        }
+
         public virtual int GetAttackIndex(List<MonsterData> monsters)
         {
             return random.Next(0, monsters.Count);
@@ -122,11 +127,6 @@ namespace MonsterArena
             if (value < 0)
                 return;
             bonusLuck = Math.Min(value, GetRemainingBonus());
-        }
-        
-        protected int GetDamage()
-        {
-            return baseStrength + bonusStrength;
         }
 
         int GetRemainingBonus()
