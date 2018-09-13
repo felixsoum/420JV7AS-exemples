@@ -10,21 +10,25 @@ namespace MurderInvitation
 
         public override GameMove GenerateMove(GameData gameData)
         {
-            var query = from actor in gameData.actorDataList
+            var myQuery = from actor in gameData.actorDataList
                         where actor.Name == name
                         select actor;
 
-            ActorData myData = query.First();
+            ActorData myData = myQuery.First();
+
+            var actorsAliveQuery = from actor in gameData.actorDataList
+                                   where actor.Hp > 0
+                                   select actor;
 
             if (myData.Hp < 100 && myData.Items.Contains(Item.Medkit))
             {
-                return new GameMove(myData.CurrentLocation, GameAction.UseMedkit, myData.Name);
+                return new GameMove(myData.CurrentLocation, GameAction.UseMedkit, myData.Name, "I feel better.");
             }
-            else if (gameData.actorDataList.Count <= 2)
+            else if (actorsAliveQuery.Count() <= 2)
             {
-                return new GameMove(GameMove.GetRandomLocation(), GameAction.Attack);
+                return new GameMove(GameMove.GetRandomLocation(), GameAction.NormalAttack, "", "I don't wanna die!");
             }
-            return new GameMove(GameMove.GetRandomLocation(), GameMove.GetRandomAction());
+            return new GameMove(GameMove.GetRandomLocation(), GameMove.GetRandomAction(), "", "Hmm...");
         }
     }
 
@@ -36,7 +40,7 @@ namespace MurderInvitation
 
         public override GameMove GenerateMove(GameData gameData)
         {
-            return new GameMove(GameMove.GetRandomLocation(), GameAction.Attack);
+            return new GameMove(GameMove.GetRandomLocation(), GameAction.StabAttack, "", "My blade thirsts...");
         }
     }
 
