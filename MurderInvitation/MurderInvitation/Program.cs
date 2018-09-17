@@ -21,11 +21,11 @@ namespace MurderInvitation
             var actorControllers = new List<ActorController>();
             var factories = new List<ActorControllerFactory>()
             {
-                new FelixControllerFactory("Brad"),
-                new FelixControllerFactory("Samuel"),
+                new FelixControllerFactory("Alice"),
+                new FelixControllerFactory("Bob"),
                 new FelixControllerFactory("Chris"),
                 new FelixControllerFactory("David"),
-                new FelixControllerFactory("Yassine"),
+                new FelixControllerFactory("Eve"),
             };
             
             // Create 1 killer and 4 survivors
@@ -73,18 +73,30 @@ namespace MurderInvitation
                     }
                     ActorController controller = actorControllers[i];
                     GameMove move = controller.GenerateMove(gameData.Clone());
-                    move.actor = actor;
+                    move.actionAuthorName = actor.name;
                     moves.Add(move);
                 }
 
                 // Process all game moves
                 foreach (var move in moves)
                 {
-                    if (move.actor.hp <= 0)
+                    Actor activeActor = actors.Find(a => a.name == move.actionAuthorName);
+                    if (activeActor.hp <= 0)
                     {
                         continue;
                     }
-                    ProcessMove(move, actors, gameData);
+
+                    if (ProcessMove(move, actors, gameData))
+                    {
+                        if (move.gameAction == GameAction.StabAttack)
+                        {
+                            move.actionAuthorName = "";
+                        }
+                        foreach (var controller in actorControllers)
+                        {
+                            controller.moveHistory.Add(move.Clone());
+                        }
+                    }
                     gameState = GetGameState(gameData, killer);
                     if (gameState != GameState.Ongoing)
                     {
@@ -132,72 +144,33 @@ namespace MurderInvitation
             return GameState.Ongoing;
         }
 
-        static void ProcessMove(GameMove gameMove, List<Actor> actors, GameData gameData)
+        static bool ProcessMove(GameMove gameMove, List<Actor> actors, GameData gameData)
         {
-            Actor currentActor = gameMove.actor;
-            gameMove.actor.currentLocation = gameMove.nextLocation;
+            Actor currentActor = actors.Find(a => a.name == gameMove.actionAuthorName);
+            currentActor.currentLocation = gameMove.nextLocation;
 
             switch (gameMove.gameAction)
             {
                 default:
                 case GameAction.Nothing:
                     break;
-                case GameAction.Attack:
-                    Actor attackTarget = actors.Find(actor => actor.name == gameMove.actionTarget);
-                    if (attackTarget == null)
-                    {
-                        var otherActorsQuery = from actor in actors
-                                               where actor.currentLocation == gameMove.nextLocation
-                                               && actor.hp > 0
-                                               && actor != currentActor
-                                               select actor;
-
-                        var result = otherActorsQuery.ToList();
-                        if (result.Count > 0)
-                        {
-                            attackTarget = result[random.Next(0, result.Count)];
-                        }
-                    }
-                    if (attackTarget != null)
-                    {
-                        if (currentActor.items.Contains(Item.Gun))
-                        {
-                            Console.WriteLine($"BANG! {currentActor.name} shoots {attackTarget.name} with a gun!");
-                            attackTarget.hp -= 100;
-                        }
-                        else
-                        {
-                            if (currentActor.isKiller)
-                            {
-                                Console.WriteLine($"{attackTarget.name} is stabbed by the killer in the shadows.");
-                                attackTarget.hp -= 50;
-                            }
-                            else
-                            {
-                                Console.WriteLine($"{currentActor.name} punches {attackTarget.name} in the face!");
-                                attackTarget.hp -= 50;
-                            }
-                        }
-                        if (attackTarget.hp <= 0)
-                        {
-                            Console.WriteLine($"{attackTarget.name} has died...");
-                            currentActor.items.AddRange(attackTarget.items);
-                            attackTarget.items.Clear();
-                        }
-                    }
-                    break;
+                case GameAction.NormalAttack:
+                case GameAction.StabAttack:
+                    return ProcessAttack(gameMove, actors, currentActor);
                 case GameAction.RepairGenerator:
                     if (currentActor.currentLocation == Location.Basement && gameData.generatorHp > 0)
                     {
-                        gameData.generatorHp -= 25;
+                        gameData.generatorHp -= 10;
                         Console.WriteLine($"{currentActor.name} repairs the generator in the basement.");
+                        return true;
                     }
                     break;
                 case GameAction.RepairGate:
                     if (currentActor.currentLocation == Location.Exit && gameData.gateHp > 0)
                     {
-                        gameData.gateHp -= 25;
+                        gameData.gateHp -= 10;
                         Console.WriteLine($"{currentActor.name} repairs the exit gate.");
+                        return true;
                     }
                     break;
                 case GameAction.UnlockSafe:
@@ -205,6 +178,7 @@ namespace MurderInvitation
                     {
                         gameData.isSafeUnlocked = true;
                         Console.WriteLine($"{currentActor.name} unlocks the safe containing the gun.");
+                        return true;
                     }
                     break;
                 case GameAction.TakeGun:
@@ -213,6 +187,7 @@ namespace MurderInvitation
                         gameData.isGunTaken = true;
                         currentActor.items.Add(Item.Gun);
                         Console.WriteLine($"{currentActor.name} takes the gun in the safe.");
+                        return true;
                     }
                     break;
                 case GameAction.TakeMedkit:
@@ -221,12 +196,13 @@ namespace MurderInvitation
                         gameData.isMedkitTaken= true;
                         currentActor.items.Add(Item.Medkit);
                         Console.WriteLine($"{currentActor.name} takes the medkit in the bathroom.");
+                        return true;
                     }
                     break;
                 case GameAction.UseMedkit:
                     if (currentActor.items.Contains(Item.Medkit))
                     {
-                        Actor healTarget = actors.Find(actor => actor.name == gameMove.actionTarget);
+                        Actor healTarget = actors.Find(actor => actor.name == gameMove.actionTargetName);
                         if (healTarget == null)
                         {
                             var anyActorQuery = from actor in actors
@@ -241,9 +217,67 @@ namespace MurderInvitation
                             currentActor.items.Remove(Item.Medkit);
                             healTarget.hp = 100;
                             Console.WriteLine($"{currentActor.name} heals {healTarget.name} with the medkit!");
+                            return true;
                         }
                     }
                     break;
+            }
+            return false;
+        }
+
+        static bool ProcessAttack(GameMove gameMove, List<Actor> actors, Actor attacker)
+        {
+            Actor attackTarget = actors.Find(actor => actor.name == gameMove.actionTargetName);
+            if (attackTarget == null)
+            {
+                var otherActorsQuery = from actor in actors
+                                       where actor.currentLocation == gameMove.nextLocation
+                                       && actor.hp > 0
+                                       && actor != attacker
+                                       select actor;
+
+                var result = otherActorsQuery.ToList();
+                if (result.Count > 0)
+                {
+                    attackTarget = result[random.Next(0, result.Count)];
+                }
+            }
+            if (attackTarget != null)
+            {
+                bool isAttackGood = false;
+                if (gameMove.gameAction == GameAction.NormalAttack)
+                {
+                    if (attacker.items.Contains(Item.Gun))
+                    {
+                        Console.WriteLine($"BANG! {attacker.name} shoots {attackTarget.name} with a gun!");
+                        attackTarget.hp -= 100;
+                        isAttackGood = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{attacker.name} punches {attackTarget.name} in the face!");
+                        attackTarget.hp -= 25;
+                        isAttackGood = true;
+                    }
+                }
+                else if (gameMove.gameAction == GameAction.StabAttack && attacker.isKiller)
+                {
+                    Console.WriteLine($"{attackTarget.name} is stabbed by the killer in the shadows.");
+                    attackTarget.hp -= 50;
+                    isAttackGood = true;
+                }
+
+                if (attackTarget.hp <= 0)
+                {
+                    Console.WriteLine($"{attackTarget.name} has died...");
+                    attacker.items.AddRange(attackTarget.items);
+                    attackTarget.items.Clear();
+                }
+                return isAttackGood;
+            }
+            else
+            {
+                return false;
             }
         }
     }
