@@ -18,22 +18,15 @@ namespace MonsterArena
 
         public bool BestTarget(List<MonsterData> monsters)
         {
-            bool exists = false;
-
             foreach (MonsterData monster in monsters)
             {
-                if (monster.hp <= 100)
+                if (monster.hp > 0 && monster.hp <= 100 && monster.name != "Babygirl")
                 {
-                    exists = true;
-                }
-                else
-                {
-                    exists = false;
+                    return true;
                 }
             }
-            return exists;
+            return false;
         }
-
 
         public override int GetAttackIndex(List<MonsterData> monsters)
         {
@@ -49,7 +42,7 @@ namespace MonsterArena
                     currentmonster = monsters[index];
 
                 }
-                while (currentmonster.hp <= 0 || currentmonster.name == "Babygirl"&& (!(currentmonster.hp>= 100)) );
+                while (currentmonster.hp <= 0 || currentmonster.name == "Babygirl" || currentmonster.hp > 100);
             }
             else
             {
