@@ -23,7 +23,7 @@ namespace MurderInvitation
             if (hasGun.Count() != 0)
             {
                 ActorData badGuy = hasGun.First();
-                return new GameMove(badGuy.CurrentLocation, GameAction.Attack, badGuy.Name);
+                return new GameMove(badGuy.CurrentLocation, GameAction.NormalAttack, badGuy.Name);
 
             }
            
@@ -34,7 +34,7 @@ namespace MurderInvitation
                                      select actor.CurrentLocation;
                                         
                                         
-                return new GameMove(BadGuyLocation.First(), GameAction.Attack);
+                return new GameMove(BadGuyLocation.First(), GameAction.NormalAttack);
             }
             if (gameData.generatorHp > 0)
             {
@@ -57,16 +57,16 @@ namespace MurderInvitation
         public override GameMove GenerateMove(GameData gameData)
         {
             var ezKill = from actor in gameData.actorDataList
-                         where actor.Hp < 50 && actor.Hp > 0
+                         where actor.Hp <= 50 && actor.Hp > 0
                          select actor;
             var everybody = from actor in gameData.actorDataList
                             where actor.Hp > 0 && actor.Name != name
                             select actor;
             if (ezKill.Count() != 0) {
-                return new GameMove(ezKill.First().CurrentLocation, GameAction.Attack);
+                return new GameMove(ezKill.First().CurrentLocation, GameAction.StabAttack);
 
             }
-            return new GameMove(everybody.First().CurrentLocation , GameAction.Attack);
+            return new GameMove(everybody.First().CurrentLocation , GameAction.StabAttack);
         }
     }
 
