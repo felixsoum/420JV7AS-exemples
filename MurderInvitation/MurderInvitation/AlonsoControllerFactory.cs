@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace MurderInvitation
 {
@@ -53,21 +54,48 @@ namespace MurderInvitation
         public AlonsoKillerController(string name) : base(name)
         {
         }
-        
+        GameAction attack= GameAction.StabAttack;
+        int Damage = 50;
         public override GameMove GenerateMove(GameData gameData)
         {
+            foreach (var actor in gameData.actorDataList) {
+
+                Console.WriteLine(actor.Name + "  =  " + actor.Hp);
+
+            }
+            if (!gameData.isGunTaken)
+            {
+                if (!gameData.isSafeUnlocked)
+                {
+                   // return new GameMove(Location.Armory, GameAction.UnlockSafe);
+
+                }
+                else {
+                    attack = GameAction.NormalAttack;
+                    Damage = 100;
+                    return new GameMove(Location.Armory, GameAction.TakeGun);
+                }
+            }
+            
             var ezKill = from actor in gameData.actorDataList
-                         where actor.Hp <= 50 && actor.Hp > 0
+                         where actor.Hp <= Damage && actor.Hp > 0 && actor.Name !=name
+                         orderby actor.Hp ascending
                          select actor;
             var everybody = from actor in gameData.actorDataList
                             where actor.Hp > 0 && actor.Name != name
+                            orderby actor.Hp descending
                             select actor;
+            ActorData target = everybody.First();
             if (ezKill.Count() != 0) {
-                return new GameMove(ezKill.First().CurrentLocation, GameAction.StabAttack);
+                ActorData ripActor = ezKill.First();
+
+                return new GameMove(ripActor.CurrentLocation, attack, ripActor.Name);
 
             }
-            return new GameMove(everybody.First().CurrentLocation , GameAction.StabAttack);
+            
+            return new GameMove(target.CurrentLocation , attack, target.Name);
         }
+
     }
 
     class AlonsoControllerFactory : ActorControllerFactory
