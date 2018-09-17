@@ -11,7 +11,7 @@ namespace MurderInvitation
         public bool isGunTaken;
         public bool isMedkitTaken;
 
-        public GameData(List<ActorData> actorDataList, int gateHp = 100, int generatorHp = 100, bool isSafeUnlocked = false, bool isGunTaken = false, bool isMedkitTaken = false)
+        public GameData(List<ActorData> actorDataList, int gateHp = 50, int generatorHp = 50, bool isSafeUnlocked = false, bool isGunTaken = false, bool isMedkitTaken = false)
         {
             this.actorDataList = actorDataList;
             this.gateHp = gateHp;
