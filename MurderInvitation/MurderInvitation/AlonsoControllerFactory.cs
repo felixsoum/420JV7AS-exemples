@@ -10,12 +10,7 @@ namespace MurderInvitation
         }
 
         public override GameMove GenerateMove(GameData gameData)
-        {
-
-
-            
-
-            ;
+        {   
 
             var hasGun = from actor in gameData.actorDataList
                          where actor.Name != name && actor.Items.Contains(Item.Gun) && actor.Hp > 0
