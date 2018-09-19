@@ -1,8 +1,11 @@
-﻿namespace MurderInvitation
+﻿using System.Collections.Generic;
+
+namespace MurderInvitation
 {
     abstract class ActorController
     {
         public readonly string name;
+        public List<GameMove> moveHistory = new List<GameMove>();
 
         public ActorController(string name)
         {
