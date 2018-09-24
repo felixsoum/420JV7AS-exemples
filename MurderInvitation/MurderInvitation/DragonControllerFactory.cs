@@ -54,7 +54,7 @@ namespace MurderInvitation
                         where actor.Name == name
                         select actor;
 
-            //bool tryStabArmory = false;
+            bool tryStabArmory = false;
 
             //var hLQuery = from actor in gameData.actorDataList
             //              where actor.Name != name
@@ -110,6 +110,54 @@ namespace MurderInvitation
 
 
             {
+                if (myData.Hp <= 50 && myData.Items.Contains(Item.Medkit))
+                {
+                    return new GameMove(myData.CurrentLocation, GameAction.UseMedkit, myData.Name);
+                }
+                else if (!gameData.isMedkitTaken)
+                {
+                    return new GameMove(Location.Bathroom, GameAction.TakeMedkit);
+                }
+                else if (gameData.isSafeUnlocked && !gameData.isGunTaken)
+                {
+                    return new GameMove(Location.Armory, GameAction.TakeGun);
+                }
+                else if (myData.Items.Contains(Item.Gun))
+                {
+                    if (gameData.generatorHp > 0)
+                    {
+                        return new GameMove(Location.Basement, GameAction.StabAttack, GetLTarget(gameData));
+                    }
+                    else
+                    {
+                        return new GameMove(Location.Exit, GameAction.StabAttack, GetLTarget(gameData));
+                    }
+                }
+                else if (GetFLTarget(gameData) == null)
+                {
+                    if (!tryStabArmory)
+                    {
+                        tryStabArmory = true;
+                        return new GameMove(Location.Armory, GameAction.UnlockSafe);
+                    }
+                    else
+                    {
+                        tryStabArmory = false;
+                        return new GameMove(Location.Armory, GameAction.StabAttack, GetGunOwner(gameData));
+                    }
+                }
+                else if (gameData.generatorHp > 0)
+                {
+                    return new GameMove(Location.Basement, GameAction.StabAttack, GetLTarget(gameData));
+                }
+                else
+                {
+                    return new GameMove(Location.Exit, GameAction.StabAttack, GetLTarget(gameData));
+                }
+            }
+
+            {
+
             //if (myData.Hp <= 50 && myData.Items.Contains(Item.Medkit))
             //{
             //    return new GameMove(myData.CurrentLocation, GameAction.UseMedkit, myData.Name);
@@ -122,180 +170,135 @@ namespace MurderInvitation
             //{
             //    return new GameMove(Location.Armory, GameAction.TakeGun);
             //}
-            //else if (myData.Items.Contains(Item.Gun))
+            //else if(myData.Items.Contains(Item.Gun))
             //{
-            //    if (gameData.generatorHp > 0)
+            //    string baseTarget = GetLTarget(gameData, Location.Basement);
+            //    string exitTarget = GetLTarget(gameData, Location.Exit);
+            //    string bathTarget = GetLTarget(gameData, Location.Bathroom);
+            //    string armTarget = GetLTarget(gameData, Location.Armory);
+
+            //    if(baseTarget!=null)
             //    {
-            //        return new GameMove(Location.Basement, GameAction.StabAttack,GetLTarget(gameData));
+            //        return new GameMove(Location.Basement, GameAction.StabAttack,baseTarget);
+
             //    }
-            //    else
+            //    else if(exitTarget!=null)
             //    {
-            //        return new GameMove(Location.Exit, GameAction.StabAttack, GetLTarget(gameData));
+            //        return new GameMove(Location.Exit, GameAction.StabAttack, exitTarget);
+
             //    }
+            //    else if (armTarget != null)
+            //    {
+            //        return new GameMove(Location.Armory, GameAction.StabAttack, armTarget);
+
+            //    }
+            //    else 
+            //    {
+            //        return new GameMove(Location.Bathroom, GameAction.StabAttack, bathTarget);
+
+            //    }
+
             //}
-            //else if(GetFLTarget(gameData) ==null)
+            //else if(GetFLTarget(gameData)==null)
             //{
-            //    if(!tryStabArmory)
+            //    if(!gameData.isSafeUnlocked)
             //    {
-            //        tryStabArmory = true;
             //        return new GameMove(Location.Armory, GameAction.UnlockSafe);
             //    }
             //    else
             //    {
-            //        tryStabArmory = false;
-            //        return new GameMove(Location.Armory, GameAction.StabAttack,GetGunOwner(gameData));
+            //        if(!gameData.isGunTaken)
+            //        {
+            //            return new GameMove(Location.Armory, GameAction.TakeGun);
+            //        }
+            //        else
+            //        {
+            //            return new GameMove(gunnerLM.nextLocation, GameAction.StabAttack, gunnerLM.actionAuthorName);
+            //        }
             //    }
-            //}
-            //else if(gameData.generatorHp>0)
-            //{
-            //        return new GameMove(Location.Basement, GameAction.StabAttack,GetLTarget(gameData));
             //}
             //else
             //{
-            //    return new GameMove(Location.Exit, GameAction.StabAttack, GetLTarget(gameData));
+            //    string baseTarget = GetFLTarget(gameData, Location.Basement);
+            //    string exitTarget = GetFLTarget(gameData, Location.Exit);
+            //    string bathTarget = GetFLTarget(gameData, Location.Bathroom);
+            //    string armTarget = GetFLTarget(gameData, Location.Armory);
+
+            //    if (baseTarget != null)
+            //    {
+            //        return new GameMove(Location.Basement, GameAction.StabAttack, baseTarget);
+
+            //    }
+            //    else if (exitTarget != null)
+            //    {
+            //        return new GameMove(Location.Exit, GameAction.StabAttack, exitTarget);
+
+            //    }
+            //    else if (armTarget != null)
+            //    {
+            //        return new GameMove(Location.Armory, GameAction.StabAttack, armTarget);
+
+            //    }
+            //    else if(bathTarget!=null)
+            //    {
+            //        return new GameMove(Location.Bathroom, GameAction.StabAttack, bathTarget);
+
+            //    }
+            //    else
+            //    {
+            //        baseTarget = GetHLTarget(gameData, Location.Basement);
+            //        exitTarget = GetHLTarget(gameData, Location.Exit);
+            //        bathTarget = GetHLTarget(gameData, Location.Bathroom);
+            //        armTarget = GetHLTarget(gameData, Location.Armory);
+            //        if (baseTarget != null)
+            //        {
+            //            return new GameMove(Location.Basement, GameAction.StabAttack, baseTarget);
+
+            //        }
+            //        else if (exitTarget != null)
+            //        {
+            //            return new GameMove(Location.Exit, GameAction.StabAttack, exitTarget);
+
+            //        }
+            //        else if (armTarget != null)
+            //        {
+            //            return new GameMove(Location.Armory, GameAction.StabAttack, armTarget);
+
+            //        }
+            //        else if (bathTarget != null)
+            //        {
+            //            return new GameMove(Location.Bathroom, GameAction.StabAttack, bathTarget);
+
+            //        }
+            //        else
+            //        {
+            //            baseTarget = GetLTarget(gameData, Location.Basement);
+            //            exitTarget = GetLTarget(gameData, Location.Exit);
+            //            bathTarget = GetLTarget(gameData, Location.Bathroom);
+            //            armTarget = GetLTarget(gameData, Location.Armory);
+            //            if (baseTarget != null)
+            //            {
+            //                return new GameMove(Location.Basement, GameAction.StabAttack, baseTarget);
+
+            //            }
+            //            else if (exitTarget != null)
+            //            {
+            //                return new GameMove(Location.Exit, GameAction.StabAttack, exitTarget);
+
+            //            }
+            //            else if (armTarget != null)
+            //            {
+            //                return new GameMove(Location.Armory, GameAction.StabAttack, armTarget);
+
+            //            }
+            //            else
+            //            {
+            //                return new GameMove(Location.Bathroom, GameAction.StabAttack, bathTarget);
+
+            //            }
+            //        }
+            //    }
             //}
-            }
-
-            if (myData.Hp <= 50 && myData.Items.Contains(Item.Medkit))
-            {
-                return new GameMove(myData.CurrentLocation, GameAction.UseMedkit, myData.Name);
-            }
-            else if (!gameData.isMedkitTaken)
-            {
-                return new GameMove(Location.Bathroom, GameAction.TakeMedkit);
-            }
-            else if (gameData.isSafeUnlocked && !gameData.isGunTaken)
-            {
-                return new GameMove(Location.Armory, GameAction.TakeGun);
-            }
-            else if(myData.Items.Contains(Item.Gun))
-            {
-                string baseTarget = GetLTarget(gameData, Location.Basement);
-                string exitTarget = GetLTarget(gameData, Location.Exit);
-                string bathTarget = GetLTarget(gameData, Location.Bathroom);
-                string armTarget = GetLTarget(gameData, Location.Armory);
-
-                if(baseTarget!=null)
-                {
-                    return new GameMove(Location.Basement, GameAction.StabAttack,baseTarget);
-
-                }
-                else if(exitTarget!=null)
-                {
-                    return new GameMove(Location.Exit, GameAction.StabAttack, exitTarget);
-
-                }
-                else if (armTarget != null)
-                {
-                    return new GameMove(Location.Armory, GameAction.StabAttack, armTarget);
-
-                }
-                else 
-                {
-                    return new GameMove(Location.Bathroom, GameAction.StabAttack, bathTarget);
-
-                }
-
-            }
-            else if(GetFLTarget(gameData)==null)
-            {
-                if(!gameData.isSafeUnlocked)
-                {
-                    return new GameMove(Location.Armory, GameAction.UnlockSafe);
-                }
-                else
-                {
-                    if(!gameData.isGunTaken)
-                    {
-                        return new GameMove(Location.Armory, GameAction.TakeGun);
-                    }
-                    else
-                    {
-                        return new GameMove(gunnerLM.nextLocation, GameAction.StabAttack, gunnerLM.actionAuthorName);
-                    }
-                }
-            }
-            else
-            {
-                string baseTarget = GetFLTarget(gameData, Location.Basement);
-                string exitTarget = GetFLTarget(gameData, Location.Exit);
-                string bathTarget = GetFLTarget(gameData, Location.Bathroom);
-                string armTarget = GetFLTarget(gameData, Location.Armory);
-
-                if (baseTarget != null)
-                {
-                    return new GameMove(Location.Basement, GameAction.StabAttack, baseTarget);
-
-                }
-                else if (exitTarget != null)
-                {
-                    return new GameMove(Location.Exit, GameAction.StabAttack, exitTarget);
-
-                }
-                else if (armTarget != null)
-                {
-                    return new GameMove(Location.Armory, GameAction.StabAttack, armTarget);
-
-                }
-                else if(bathTarget!=null)
-                {
-                    return new GameMove(Location.Bathroom, GameAction.StabAttack, bathTarget);
-
-                }
-                else
-                {
-                    baseTarget = GetHLTarget(gameData, Location.Basement);
-                    exitTarget = GetHLTarget(gameData, Location.Exit);
-                    bathTarget = GetHLTarget(gameData, Location.Bathroom);
-                    armTarget = GetHLTarget(gameData, Location.Armory);
-                    if (baseTarget != null)
-                    {
-                        return new GameMove(Location.Basement, GameAction.StabAttack, baseTarget);
-
-                    }
-                    else if (exitTarget != null)
-                    {
-                        return new GameMove(Location.Exit, GameAction.StabAttack, exitTarget);
-
-                    }
-                    else if (armTarget != null)
-                    {
-                        return new GameMove(Location.Armory, GameAction.StabAttack, armTarget);
-
-                    }
-                    else if (bathTarget != null)
-                    {
-                        return new GameMove(Location.Bathroom, GameAction.StabAttack, bathTarget);
-
-                    }
-                    else
-                    {
-                        baseTarget = GetLTarget(gameData, Location.Basement);
-                        exitTarget = GetLTarget(gameData, Location.Exit);
-                        bathTarget = GetLTarget(gameData, Location.Bathroom);
-                        armTarget = GetLTarget(gameData, Location.Armory);
-                        if (baseTarget != null)
-                        {
-                            return new GameMove(Location.Basement, GameAction.StabAttack, baseTarget);
-
-                        }
-                        else if (exitTarget != null)
-                        {
-                            return new GameMove(Location.Exit, GameAction.StabAttack, exitTarget);
-
-                        }
-                        else if (armTarget != null)
-                        {
-                            return new GameMove(Location.Armory, GameAction.StabAttack, armTarget);
-
-                        }
-                        else
-                        {
-                            return new GameMove(Location.Bathroom, GameAction.StabAttack, bathTarget);
-
-                        }
-                    }
-                }
             }
 
 
