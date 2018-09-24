@@ -21,11 +21,11 @@ namespace MurderInvitation
             var actorControllers = new List<ActorController>();
             var factories = new List<ActorControllerFactory>()
             {
-                new TheoControllerFactory("Alice"),
-                new TheoControllerFactory("Bob"),
-                new TheoControllerFactory("Chris"),
-                new TheoControllerFactory("David"),
-                new TheoControllerFactory("Eve"),
+                new DragonControllerFactory("Alice"),
+                new DragonControllerFactory("Bob"),
+                new DragonControllerFactory("Chris"),
+                new DragonControllerFactory("David"),
+                new DragonControllerFactory("Eve"),
             };
             
             // Create 1 killer and 4 survivors
@@ -112,6 +112,7 @@ namespace MurderInvitation
                     Console.WriteLine($"{actor.name} has survived the murder invitation.");
                 }
             }
+            Console.ReadKey();
         }
 
         static GameState GetGameState(GameData gameData, Actor killer)
