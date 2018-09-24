@@ -46,7 +46,7 @@
     <Compile Include="Actor.cs" />
     <Compile Include="ActorControllerFactory.cs" />
     <Compile Include="ActorData.cs" />
-    <Compile Include="FelixControllerFactory.cs" />
+    <Compile Include="ChrisControllerFactory.cs" />
     <Compile Include="GameData.cs" />
     <Compile Include="GameMove.cs" />
     <Compile Include="Program.cs" />
