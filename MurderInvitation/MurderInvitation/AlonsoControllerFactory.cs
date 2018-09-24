@@ -51,6 +51,7 @@ namespace MurderInvitation
         }
         GameAction attack= GameAction.StabAttack;
         int Damage = 50;
+        string messageOwo = "owo *stab stab* wuts twis uwu";
         public override GameMove GenerateMove(GameData gameData)
         {
             foreach (var actor in gameData.actorDataList) {
@@ -68,6 +69,7 @@ namespace MurderInvitation
                 else {
                     attack = GameAction.NormalAttack;
                     Damage = 100;
+                    messageOwo = "*pew pew* OwO I did an oopsie woopsie";
                     return new GameMove(Location.Armory, GameAction.TakeGun);
                 }
             }
@@ -84,11 +86,11 @@ namespace MurderInvitation
             if (ezKill.Count() != 0) {
                 ActorData ripActor = ezKill.First();
 
-                return new GameMove(ripActor.CurrentLocation, attack, ripActor.Name);
+                return new GameMove(ripActor.CurrentLocation, attack, ripActor.Name, messageOwo);
 
             }
             
-            return new GameMove(target.CurrentLocation , attack, target.Name);
+            return new GameMove(target.CurrentLocation , attack, target.Name, messageOwo);
         }
 
     }
