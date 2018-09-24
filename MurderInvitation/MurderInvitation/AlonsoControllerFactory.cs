@@ -30,14 +30,14 @@ namespace MurderInvitation
                                      select actor.CurrentLocation;
                                         
                                         
-                return new GameMove(BadGuyLocation.First(), GameAction.NormalAttack);
+                return new GameMove(BadGuyLocation.First(), GameAction.NormalAttack, "*punch*");
             }
             if (gameData.generatorHp > 0)
             {
-                return new GameMove(Location.Basement, GameAction.RepairGenerator);
+                return new GameMove(Location.Basement, GameAction.RepairGenerator, "I'm workwing werry hawd fwixing twis, owo");
             }
             else if (gameData.gateHp > 0) {
-                return new GameMove(Location.Exit, GameAction.RepairGate);
+                return new GameMove(Location.Exit, GameAction.RepairGate, "*hits gate* owo, I dwid an oopsie woopsie");
 
             }
             return new GameMove(GameMove.GetRandomLocation(), GameMove.GetRandomAction());
