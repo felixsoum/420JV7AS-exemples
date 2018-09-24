@@ -24,14 +24,14 @@ namespace MurderInvitation
             {
                 return new GameMove(myData.CurrentLocation, GameAction.UseMedkit, myData.Name, "I feel better.");
             }
-            if (gameData.isSafeUnlocked && !gameData.isGunTaken)
-            {
-                return new GameMove(Location.Armory, GameAction.TakeGun, myData.Name, "I got the gun ! Get behind me, I'll protect you !");
-            }
-            if (!gameData.isMedkitTaken)
-            {
-                return new GameMove(Location.Bathroom, GameAction.TakeMedkit, myData.Name, "I'm the support now, I'll take good care of you !");
-            }
+            //if (gameData.isSafeUnlocked && !gameData.isGunTaken)
+            //{
+            //    return new GameMove(Location.Armory, GameAction.TakeGun, myData.Name, "I got the gun ! Get behind me, I'll protect you !");
+            //}
+            //if (!gameData.isMedkitTaken)
+            //{
+            //    return new GameMove(Location.Bathroom, GameAction.TakeMedkit, myData.Name, "I'm the support now, I'll take good care of you !");
+            //}
             if (gameData.gateHp > 0)
             {
                 return new GameMove(Location.Exit, GameAction.RepairGate, myData.Name, "Let's get out of here !");
@@ -72,18 +72,31 @@ namespace MurderInvitation
             //                       select actor;
 
             //ActorData dangerousActor = null;
+            if (gameData.isSafeUnlocked == false)
+            {
+                return new GameMove(Location.Armory, GameAction.UnlockSafe, myData.Name, "I opened the safe !");
+            }
+            if (gameData.isSafeUnlocked && gameData.isGunTaken == false)
+            {
+                return new GameMove(Location.Armory, GameAction.TakeGun, myData.Name, "I got the gun ! Get behind me, I'll protect you !");
+            }
 
             foreach (var actor in actorsAliveQuery)
             {
-                if (actor.Items.Count > 0 || actor.Name != myData.Name)
+                if (myData.Items.Contains(Item.Gun) && actor.Name != myData.Name)
+                {
+                    return new GameMove(actor.CurrentLocation, GameAction.NormalAttack, actor.Name, "Take this !");
+                }
+                else if (actor.Items.Count > 0 && actor.Name != myData.Name)
                 {
                     return new GameMove(actor.CurrentLocation, GameAction.StabAttack, actor.Name, "I love blood...");
                     //dangerousActor = actor;
                 }
-                if (actor.Hp <= 50 && actor.Hp > 0)
+                else if (actor.Hp <= 50 && actor.Hp > 0 && actor.Name != myData.Name)
                 {
                     return new GameMove(actor.CurrentLocation, GameAction.StabAttack, actor.Name, "I love blood...");
                 }
+                
             }
             //if (actorsItemsQuery != null)
             //{
@@ -97,14 +110,8 @@ namespace MurderInvitation
             {
                 return new GameMove(myData.CurrentLocation, GameAction.UseMedkit, myData.Name, "I feel better.");
             }
-            if (gameData.isSafeUnlocked && !gameData.isGunTaken)
-            {
-                return new GameMove(Location.Armory, GameAction.TakeGun, myData.Name, "I got the gun ! Get behind me, I'll protect you !");
-            }
-            if (!gameData.isMedkitTaken)
-            {
-                return new GameMove(Location.Bathroom, GameAction.TakeMedkit, myData.Name, "I'm the support now, I'll take good care of you !");
-            }
+            
+            
             //if (dangerousActor != null)
             //{
             //    return new GameMove(dangerousActor.CurrentLocation, GameAction.StabAttack, "", "I need your life...");
@@ -113,14 +120,12 @@ namespace MurderInvitation
             //{
             //    return new GameMove(survivorActor.CurrentLocation, GameAction.StabAttack, "", "I need your life...");
             //}
-            if (!gameData.isSafeUnlocked)
+            
+            if (!gameData.isMedkitTaken)
             {
-                return new GameMove(Location.Armory, GameAction.UnlockSafe, myData.Name, "I opened the safe !");
+                return new GameMove(Location.Bathroom, GameAction.TakeMedkit, myData.Name, "I'm the support now, I'll take good care of you !");
             }
-            if (myData.Items.Contains(Item.Gun))
-            {
-                return new GameMove(GameMove.GetRandomLocation(), GameAction.NormalAttack, survivorActor.Name, "Take this !");
-            }
+            
             return new GameMove(GameMove.GetRandomLocation(), GameAction.StabAttack, "", "My blade thirsts...");
         }
     }
