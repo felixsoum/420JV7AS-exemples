@@ -24,7 +24,7 @@ namespace MurderInvitation
             {
                 return new GameMove(myData.CurrentLocation, GameAction.UseMedkit, myData.Name, "I feel better.");
             }
-            if (actorsAliveQuery.Count() <= 2)
+            else if (actorsAliveQuery.Count() <= 2)
             {
                 return new GameMove(GameMove.GetRandomLocation(), GameAction.NormalAttack, "", "I don't wanna die!");
             }
