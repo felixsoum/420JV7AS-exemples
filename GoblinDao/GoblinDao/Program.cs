@@ -7,9 +7,13 @@ namespace GoblinDao
     {
         static void Main(string[] args)
         {
-            //GoblinDao.InsertAll(CreateStartingGoblins());
-
             List<Goblin> goblins = GoblinDao.GetAll();
+
+            if (goblins.Count == 0)
+            {
+                GoblinDao.InsertAll(CreateStartingGoblins());
+                goblins.AddRange(GoblinDao.GetAll());
+            }
 
             if (goblins.Count > 0)
             {

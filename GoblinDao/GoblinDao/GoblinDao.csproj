@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F085D8DB-FD5A-41EA-BB9F-66584C3BAE62}</ProjectGuid>
+    <ProjectGuid>{BDE32874-C756-474E-B267-28C56BA43CE6}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MurderInvitation</RootNamespace>
-    <AssemblyName>MurderInvitation</AssemblyName>
+    <RootNamespace>GoblinDao</RootNamespace>
+    <AssemblyName>GoblinDao</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,19 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actor.cs" />
-    <Compile Include="ActorControllerFactory.cs" />
-    <Compile Include="ActorData.cs" />
-    <Compile Include="ChrisControllerFactory.cs" />
-    <Compile Include="AlonsoControllerFactory.cs" />
-    <Compile Include="DavidControllerFactory.cs" />
-    <Compile Include="DragonControllerFactory.cs" />
-    <Compile Include="FelixControllerFactory.cs" />
-    <Compile Include="GameData.cs" />
-    <Compile Include="GameMove.cs" />
+    <Compile Include="Goblin.cs" />
+    <Compile Include="GoblinDao.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TheoControllerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

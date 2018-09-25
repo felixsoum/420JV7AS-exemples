@@ -54,11 +54,11 @@ namespace MurderInvitation
         string messageOwo = "owo *stab stab* wuts twis uwu";
         public override GameMove GenerateMove(GameData gameData)
         {
-            foreach (var actor in gameData.actorDataList) {
+            //foreach (var actor in gameData.actorDataList) {
 
-                Console.WriteLine(actor.Name + "  =  " + actor.Hp);
+            //    Console.WriteLine(actor.Name + "  =  " + actor.Hp);
 
-            }
+            //}
             if (!gameData.isGunTaken)
             {
                 if (!gameData.isSafeUnlocked)
