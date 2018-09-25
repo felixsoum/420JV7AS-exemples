@@ -49,13 +49,13 @@ public class GameDirector : MonoBehaviour
         actors = new List<Actor>();
         actorControllers = new List<ActorController>();
         var factories = new List<ActorControllerFactory>()
-            {
-                new FelixControllerFactory("Alice"),
-                new FelixControllerFactory("Bob"),
-                new FelixControllerFactory("Chris"),
-                new FelixControllerFactory("David"),
-                new FelixControllerFactory("Eve"),
-            };
+        {
+                new AlonsoControllerFactory("Alonso"),
+                new ChrisControllerFactory("Chris"),
+                new DavidControllerFactory("David"),
+                new DragonControllerFactory("Adrien"),
+                new TheoControllerFactory("Theo")
+        };
 
         // Create 1 killer and 4 survivors
         while (actors.Count < 5)

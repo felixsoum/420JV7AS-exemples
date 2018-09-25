@@ -56,7 +56,11 @@
      <Compile Include="Assets\Scripts\Actor.cs" />
      <Compile Include="Assets\Scripts\ActorControllerFactory.cs" />
      <Compile Include="Assets\Scripts\ActorData.cs" />
+     <Compile Include="Assets\Scripts\AlonsoControllerFactory.cs" />
+     <Compile Include="Assets\Scripts\ChrisControllerFactory.cs" />
+     <Compile Include="Assets\Scripts\DavidControllerFactory.cs" />
      <Compile Include="Assets\Scripts\DialogueOuput.cs" />
+     <Compile Include="Assets\Scripts\DragonControllerFactory.cs" />
      <Compile Include="Assets\Scripts\FelixControllerFactory.cs" />
      <Compile Include="Assets\Scripts\GameData.cs" />
      <Compile Include="Assets\Scripts\GameDirector.cs" />
@@ -66,6 +70,7 @@
      <Compile Include="Assets\Scripts\PlayerInfo.cs" />
      <Compile Include="Assets\Scripts\PlayerToken.cs" />
      <Compile Include="Assets\Scripts\RandomStrategy.cs" />
+     <Compile Include="Assets\Scripts\TheoControllerFactory.cs" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>C:/Users/felix/Desktop/LaSalle/420JV7AS/repo/420JV7AS-exemples/MurderInvitationUnity/Murder Invitation/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
  </Reference>
