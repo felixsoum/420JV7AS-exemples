@@ -56,6 +56,7 @@
     <Compile Include="Lich.cs" />
     <Compile Include="Monster.cs" />
     <Compile Include="MonsterData.cs" />
+    <Compile Include="BestStatCalculator.cs" />
     <Compile Include="Orc.cs" />
     <Compile Include="Palico.cs" />
     <Compile Include="PereFwetar.cs" />
